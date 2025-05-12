@@ -1,0 +1,29 @@
+---View table---
+select * from sales;
+
+SELECT COUNT(transaction_id) AS Number_of_sales, 
+COUNT (product_id) AS products_sold,
+--CREATE REVENUE COLUMN---
+SUM(transaction_qty*unit_price) AS Revenue,
+product_category,
+product_type,
+product_detail,store_location,
+---CREATE TIME SLOTS AND MONTHS
+(SELECT 
+CASE 
+WHEN transaction_time BETWEEN '06:00' AND '12:00' THEN 'Morning'
+WHEN transaction_time BETWEEN'12:00' AND '18:00' THEN'Afternoon'
+WHEN transaction_time BETWEEN '18:00' AND '21:00' THEN'Evening'
+ELSE 'Night'
+END) AS time_category,
+CASE
+when transaction_date between'2023/01/01' and '2023/01/31' then 'January'
+when transaction_date between'2023/02/01' and '2023/02/31' then 'February'
+when transaction_date between'2023/03/01' and '2023/03/31' then 'March'
+when transaction_date between'2023/04/01' and '2023/04/31' then 'April'
+when transaction_date between'2023/05/01' and '2023/05/31' then 'May'
+when transaction_date between'2023/06/01' and '2023/06/31' then 'June'
+else 'other_month'
+end as Sales_month,
+FROM SALES
+GROUP BY ALL;
